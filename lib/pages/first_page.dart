@@ -1,51 +1,62 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
-import 'package:flutter_application_1/screens_constants.dart';
+import 'package:flutter_application_1/pages/profile_page.dart';
+import 'package:flutter_application_1/pages/settings_page.dart';
 
 //
-class FirstPage extends StatelessWidget {
+class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
+
+  @override
+  State<FirstPage> createState() => _FirstPageState();
+}
+
+class _FirstPageState extends State<FirstPage> {
+  //tracker for the current page
+  int _selectedPage = 0;
+
+  void _navigationForBottomBar(int index) {
+    setState(() {
+      _selectedPage = index;
+    });
+  }
+
+  //list of page
+  final List _pages = [
+    //home page
+    HomePage(),
+    //profile page
+    ProfilePage(),
+    //SettingsPage
+    SettingsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("1st page")),
-      drawer: Drawer(
-        backgroundColor: Colors.deepPurple[100], 
-        child: Column(children: [
-          DrawerHeader(
-              child: Icon(
-            Icons.face_2_outlined,
-            size: 50,
-          )),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text("H O M E"),
-            onTap: () {
-              //POP THE DRAWR
-              Navigator.pop(context);
-              Navigator.pushNamed(context, Screens.homeScreen);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text("S E T T I N G S"),
-            onTap: () {
-              //POP THE DRAWR
-              Navigator.pop(context);
-              Navigator.pushNamed(context, Screens.settingsScreen);
-            },
-          )
-        ]),
-      ),
-      body: Center(
-          child: ElevatedButton(
-        child: Text("Go To Second"),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage())),
-      )),
-    );
+        appBar: AppBar(title: Text("1st page")),
+        body: _pages[_selectedPage],
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedPage,
+            onTap: _navigationForBottomBar,
+            items: [
+              //home
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              //profile
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+              //settings
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ]));
   }
 }
