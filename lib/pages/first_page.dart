@@ -13,7 +13,7 @@ class FirstPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("1st page")),
       drawer: Drawer(
-        backgroundColor: Colors.deepPurple[100],
+        backgroundColor: Colors.deepPurple[100], 
         child: Column(children: [
           DrawerHeader(
               child: Icon(
